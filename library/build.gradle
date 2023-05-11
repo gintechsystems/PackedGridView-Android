@@ -1,9 +1,11 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
 }
 
 android {
     namespace 'com.gintechsystems.library'
+
     compileSdk 33
 
     defaultConfig {
@@ -23,5 +25,25 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'com.gintechsystems'
+            artifactId = 'PackedGridView-Android'
+            version = '1.0.4'
+
+            afterEvaluate {
+                from components.release
+            }
+        }
     }
 }
